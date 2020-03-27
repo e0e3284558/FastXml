@@ -21,6 +21,5 @@
         "psr-4": {
             "Bifei\\FastXml\\": "./src/"
         }
-    },
-    "minimum-stability": "stable"
+    }
 }
