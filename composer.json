@@ -11,7 +11,11 @@
     "require": {
         "php": "^7.2.5",
         "ext-json": "*",
-        "illuminate/config": "^7.0"
+        "symfony/debug": "^4.3.4",
+        "symfony/var-dumper": "^4.3.4",
+        "illuminate/support": "^6.18.2",
+        "illuminate/log": "^6.18.2",
+        "ramsey/uuid": "^3.7"
     },
     "autoload": {
         "psr-4": {
