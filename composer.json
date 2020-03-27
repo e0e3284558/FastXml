@@ -10,11 +10,23 @@
         }
     ],
     "require": {
-       
+        "php": "^7.2",
+        "ext-json": "*",
+        "symfony/debug": "^4.3.4",
+        "symfony/var-dumper": "^4.3.4",
+        "illuminate/support": "^6.18.2",
+        "illuminate/log": "^6.18.2",
+        "ramsey/uuid": "^3.7"
     },
     "autoload": {
         "psr-4": {
             "Bifei\\FastXml\\": "./src/"
+        }
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://mirrors.aliyun.com/composer"
         }
     }
 }
