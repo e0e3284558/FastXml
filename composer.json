@@ -1,6 +1,7 @@
 {
     "name": "bifei/fast-xml",
     "description": "fast-xml",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
