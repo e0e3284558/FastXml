@@ -14,7 +14,8 @@ class CreateXml
 
     /**
      * 根据array生成XML
-     * @param $xmlData
+     * @param array $xmlData
+     * @return bool
      */
     public function generate($xmlData = [])
     {
@@ -33,10 +34,10 @@ class CreateXml
                 $grandFather->appendChild($father);//讲Father放到Grandfather下
                 if (is_array($val)) {
                     // 如果是数组，递归去拆解添加对象
-                    $val = $this->recursion($val, $doc, $father, $type);
+                    $val = $this->recursion($val, $doc, $father, $this->type);
                     $father->appendChild($val);//将标签内容赋给标签
                 } else {
-                    if ($type == 'text') {
+                    if ($this->type == 'text') {
                         $content = $doc->createTextNode($val);//设置标签内容
                     } else {
                         $content = $doc->createCDATASection($val);//设置CDATA标签内容
@@ -47,6 +48,11 @@ class CreateXml
         }
         $doc->appendChild($grandFather);//创建顶级节点
         $doc->save($this->filePath);//保存xml
+        if (file_exists($this->filePath)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -56,18 +62,18 @@ class CreateXml
      * @param $father
      * @return mixed
      */
-    public function recursion($list = [], &$dom, &$father, $type)
+    public function recursion($list = [], &$dom, &$father)
     {
         foreach ($list as $key => $item) {
             $son = $dom->createElement($key);
             $father->appendChild($son);
             if (is_array($item)) {
                 // 如果还有下级则继续拆解
-                $item = $this->recursion($item, $dom, $son, $type);
+                $item = $this->recursion($item, $dom, $son, $this->type);
                 $son->appendChild($item);
                 $father->appendChild($son);
             } else {
-                if ($type == 'text') {
+                if ($this->type == 'text') {
                     $item = $dom->createTextNode($item);
                 } else {
                     $item = $dom->createCDATASection($item);

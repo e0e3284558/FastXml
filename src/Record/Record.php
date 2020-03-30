@@ -1,10 +1,11 @@
 <?php
 
-namespace Bifei\FastXml\Record;
+namespace Bifei\FastXml\Generate\Xml;
+
 
 class Record
 {
-    use XmlRecord;
+
     protected $recordPath = '';
 
     /**

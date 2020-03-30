@@ -35,7 +35,7 @@ class Generate extends CreateXml
      * 生成文件存储目录 根目录
      * @var string
      */
-    protected $filePath = '';
+    public $filePath = '';
 
     /**
      * 文件名
@@ -47,13 +47,11 @@ class Generate extends CreateXml
      * 上次生成记录文件地址
      * @var string
      */
-    protected $recordPath = '';
+    public $record = '';
 
-    /**
-     * 每次生成的数量
-     * @var int
-     */
-    protected $limit = 100;
+    protected $xmlRecord = null;
+
+
 
     /**
      * 最后一次生成的id
@@ -61,6 +59,13 @@ class Generate extends CreateXml
      */
     protected $last_id = 0;
 
+    public function __construct()
+    {
+        // 初始化文件名
+        $this->setFileName();
+        $this->record = new XmlRecord();
+        $this->siteMap = new SiteMap();
+    }
 
 
     /**
@@ -94,7 +99,7 @@ class Generate extends CreateXml
      * @param $lable
      * @return $this
      */
-    public function setTopLable($lable='')
+    public function setTopLable($lable = '')
     {
         $this->topLable = $lable;
         return $this;
@@ -105,7 +110,7 @@ class Generate extends CreateXml
      * @param $attribute
      * @return $this
      */
-    public function setAttribute($attribute=[])
+    public function setAttribute($attribute = [])
     {
         $this->attribute = $attribute;
         return $this;
@@ -113,7 +118,8 @@ class Generate extends CreateXml
 
     public function setType($type)
     {
-
+        $this->type = $type;
+        return $this;
     }
 
     /**
@@ -121,9 +127,17 @@ class Generate extends CreateXml
      * @param $path
      * @return $this
      */
-    public function setFilePath($path): string
+    public function setFilePath($path)
     {
-        $this->filePath = $path;
+        if (is_dir($path)) {
+            if (substr($path, -1) === '/') {
+                $this->filePath = $path . $this->fileName;
+            } else {
+                $this->filePath = $path . '/' . $this->fileName;
+            }
+        } else {
+            $this->filePath = $path;
+        }
         return $this;
     }
 
@@ -134,7 +148,7 @@ class Generate extends CreateXml
      * @return string
      * @throws \Exception
      */
-    public function setFileName($fileName = '', $type = 'xml'): string
+    public function setFileName($fileName = '', $type = 'xml')
     {
         if (empty($fileName)) {
             $this->fileName = $this->GeneRandomName($type);
